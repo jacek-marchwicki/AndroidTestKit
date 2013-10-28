@@ -8,7 +8,7 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withContentDescription;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.anyOf;
+import static org.hamcrest.core.AnyOf.anyOf;
 import static org.hamcrest.Matchers.endsWith;
 
 import com.google.android.apps.common.testing.testrunner.UsageTrackerRegistry;
@@ -97,7 +97,7 @@ public final class Espresso {
   // But the ActionBarActivity compat lib is missing a content description for this element, so
   // we add the class name matcher as another option to find the view.
   @SuppressWarnings("unchecked")
-  private static final Matcher<View> OVERFLOW_BUTTON_MATCHER = anyOf(
+  private static final Matcher<View> OVERFLOW_BUTTON_MATCHER = (Matcher<View>)(Matcher<?>)anyOf(
     allOf(isDisplayed(), withContentDescription("More options")), 
     allOf(isDisplayed(), withClassName(endsWith("OverflowMenuButton"))));
 
