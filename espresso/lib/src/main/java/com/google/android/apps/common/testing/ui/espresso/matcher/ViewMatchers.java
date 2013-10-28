@@ -441,10 +441,10 @@ public final class ViewMatchers {
     return withCheckBoxState(is(false));
   }
 
-  private static <E extends View & Checkable> Matcher<View> withCheckBoxState(
+  private static Matcher<View> withCheckBoxState(
       final Matcher<Boolean> checkStateMatcher) {
 
-    return new BoundedMatcher<View, E>(View.class, Checkable.class) {
+    return new TypeSafeMatcher<View>() {
       @Override
       public void describeTo(Description description) {
         description.appendText("with checkbox state: ");
@@ -452,7 +452,11 @@ public final class ViewMatchers {
       }
 
       @Override
-      public boolean matchesSafely(E checkable) {
+      public boolean matchesSafely(View view) {
+	if (!(view instanceof Checkable)) {
+	  return false;
+	}
+	Checkable checkable = (Checkable) view;
         return checkStateMatcher.matches(checkable.isChecked());
       }
     };
